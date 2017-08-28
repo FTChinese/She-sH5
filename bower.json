@@ -1,0 +1,13 @@
+{
+  "name": "she-sh5",
+  "description": "The M-Benz She's H5",
+  "main": "gulpfile.js",
+  "authors": [
+    "Yichen Wang"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/FTChinese/She-sH5",
+  "dependencies": {
+    "swiper": "^3.4.2"
+  }
+}

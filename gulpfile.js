@@ -9,6 +9,7 @@ const babel = require('rollup-plugin-babel');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const rollupUglify = require('rollup-plugin-uglify');
 const minifyEs6 = require('uglify-es').minify;
+const merge = require('merge-stream');
 var cache;
 const env = new nunjucks.Environment(
   new nunjucks.FileSystemLoader(
@@ -66,6 +67,15 @@ gulp.task('style',() => {
     .pipe(browserSync.stream({once:true}));
 });
 
+gulp.task('copysource', () => {
+  const destDir = '.tmp/components';
+  const copyCss = gulp.src('bower_Components/swiper/dist/css/swiper.min.css')
+    .pipe(gulp.dest(destDir));
+  const copyJs = gulp.src('bower_Components/swiper/dist/js/swiper.jquery.min.js')
+    .pipe(gulp.dest(destDir));
+  return merge(copyCss,copyJs);
+});
+
 gulp.task('script',() => {
    return rollup({
      entry:'client/js/main.js',
@@ -96,7 +106,7 @@ gulp.task('script',() => {
 gulp.task('serve',gulp.series('html','style','script',function() {
   browserSync.init({
     server:{
-      baseDir: ['.tmp'],
+      baseDir: ['.tmp','static'],
       //directory:true,
       routes: {
         '/bower_components':'bower_components'
@@ -106,5 +116,5 @@ gulp.task('serve',gulp.series('html','style','script',function() {
   });
   gulp.watch('client/styles/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/*.js',gulp.parallel('script'));
-  gulp.watch(['views/*.html','data/*.json'],gulp.parallel('html'));
+  gulp.watch(['views/**/*.html','data/*.json'],gulp.parallel('html'));
 }));

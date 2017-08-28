@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>{{text}}</p>
+  {% include "partials/video.html" %}
+
+  <img class="cutline" src = "c.png" alt = "cut line">
+
+  {% include "partials/carousel.html" %}
 {% endblock %}
