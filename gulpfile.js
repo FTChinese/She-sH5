@@ -69,11 +69,8 @@ gulp.task('style',() => {
 
 gulp.task('copysource', () => {
   const destDir = '.tmp/components';
-  const copyCss = gulp.src('bower_Components/swiper/dist/css/swiper.min.css')
+  return gulp.src(['bower_Components/swiper/dist/css/swiper.min.css','bower_Components/swiper/dist/js/swiper.min.js'])
     .pipe(gulp.dest(destDir));
-  const copyJs = gulp.src('bower_Components/swiper/dist/js/swiper.jquery.min.js')
-    .pipe(gulp.dest(destDir));
-  return merge(copyCss,copyJs);
 });
 
 gulp.task('script',() => {

@@ -8,6 +8,7 @@
   "license": "MIT",
   "homepage": "https://github.com/FTChinese/She-sH5",
   "dependencies": {
-    "swiper": "^3.4.2"
+    "swiper": "^3.4.2",
+    "jquery": "^3.2.1"
   }
 }
