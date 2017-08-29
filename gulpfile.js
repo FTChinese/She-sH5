@@ -91,7 +91,8 @@ gulp.task('script',() => {
      return bundle.write({//返回promise，以便下一步then()
        dest: '.tmp/scripts/main.js',
        format: 'iife',
-       sourceMap: true
+       sourceMap: true,
+       moduleName: 'myJSModule'
      });
    }).then(() => {
      browserSync.reload();
