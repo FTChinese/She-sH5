@@ -1,13 +1,15 @@
 /*********for carousel**********/
-const slideWords = ["Words for slide0",
+const slideWords = ["遇见知己，更看见自己。<br>加入She's Mercedes，与全球精英女性光彩相映。",
   "Words for slide1",
   "Words for slide2"
 ];
 const wordElem = document.getElementById("wordContainer");
 
 const swiperContainer = new Swiper ('#swiperContainer', {
-  loop:true,
+  //loop:true,
   pagination:'.swiper-pagination',
+  //autoplay:3000,
+  autoplayDisableOnInteraction: false,
   onSlideChangeEnd:function(swiper) {
     const activeSlideIndex = swiper.realIndex;
     console.log(activeSlideIndex);
@@ -33,54 +35,6 @@ function video(obj) {
  //var player1 = getSWF( "cc_461A1C4F1296FA649C33DC5901307461" );
 //on_cc_player_init("cc_video_461A1C4F1296FA649C33DC5901307461_1665838","cc_461A1C4F1296FA649C33DC5901307461");
 
-/*********for ccVideo**********/
 
-    var player = [];
 
-    function onPlayStart(vid) {
-        player[vid].setVolume(0);
-        document.getElementById("video" + vid).style.display = "";
-    }
-
-    function onPlayStop(vid) {
-        document.getElementById("video" + vid).style.display = "none";
-    }
-
-    function onPlayResume(vid) {
-        document.getElementById("video" + vid).style.display = "";
-    }
-
-    function getSWF(swfID) {
-        if (window.document[swfID]) {
-            return window.document[swfID];
-        } else if (navigator.appName.indexOf("Microsoft") == -1) {
-            if (document.embeds && document.embeds[swfID]) {
-                return document.embeds[swfID];
-            }
-        } else {
-            return document.getElementById(swfID);
-        }
-    }
-
-    function on_cc_player_init(vid, objectID) {
-        var config = {};
-        //config.control_enable = 0;
-        config.loading_enable = 0;
-        config.tip_enable = 0;
-        //config.bigbutton_enable = 0;
-        config.play_start_time = 0;
-        config.on_player_start = "onPlayStart('" + vid + "')";
-        config.on_player_stop = "onPlayStop('" + vid + "')";
-        config.on_player_resume = "onPlayResume('" + vid + "')";
-
-        player[vid] = getSWF(objectID);
-        player[vid].setConfig(config);
-    }
-
-    function on_spark_player_start() {
-        for (var vid in player) {
-            player[vid].setVolume(0);
-        }
-
-    }
 

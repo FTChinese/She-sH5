@@ -10,6 +10,7 @@ const nodeResolve = require('rollup-plugin-node-resolve');
 const rollupUglify = require('rollup-plugin-uglify');
 const minifyEs6 = require('uglify-es').minify;
 const merge = require('merge-stream');
+const del = require('del');
 var cache;
 const env = new nunjucks.Environment(
   new nunjucks.FileSystemLoader(
@@ -67,15 +68,17 @@ gulp.task('style',() => {
     .pipe(browserSync.stream({once:true}));
 });
 
-gulp.task('copysource', () => {
+gulp.task('copySource', () => {
   const destDir = '.tmp/components';
   return gulp.src(['bower_Components/swiper/dist/css/swiper.min.css','bower_Components/swiper/dist/js/swiper.min.js'])
     .pipe(gulp.dest(destDir));
 });
 
+
+
 gulp.task('script',() => {
    return rollup({
-     entry:'client/js/main.js',
+     input:'client/js/main.js',
      cache: cache,
      plugins:[
        babel({//这里需要配置文件.babelrc
@@ -89,10 +92,10 @@ gulp.task('script',() => {
    }).then(function(bundle) {
      cache = bundle;//Cache for later use
      return bundle.write({//返回promise，以便下一步then()
-       dest: '.tmp/scripts/main.js',
+       file: '.tmp/scripts/main.js',
        format: 'iife',
-       sourceMap: true,
-       moduleName: 'myJSModule'
+       sourcemap: true,
+       //name: 'myJSModule'
      });
    }).then(() => {
      browserSync.reload();
@@ -101,7 +104,13 @@ gulp.task('script',() => {
    });
 });
 
-gulp.task('serve',gulp.series('html','style','script',function() {
+gulp.task('copyOtherJs',() => {
+  const destDir = '.tmp/scripts';
+  return gulp.src('client/js/ccvideo.js')
+    .pipe(gulp.dest(destDir));
+});
+
+gulp.task('serve',gulp.series('html','style','copySource','copyOtherJs','script',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp','static'],
@@ -113,6 +122,49 @@ gulp.task('serve',gulp.series('html','style','script',function() {
     port:9000
   });
   gulp.watch('client/styles/*.scss',gulp.parallel('style'));
-  gulp.watch('client/js/*.js',gulp.parallel('script'));
+  gulp.watch('client/js/ccvideo.js',gulp.parallel('copyOtherJs'));
+  gulp.watch('client/js/main.js',gulp.parallel('script'));
   gulp.watch(['views/**/*.html','data/*.json'],gulp.parallel('html'));
+}));
+
+
+
+gulp.task('build',gulp.series('html','style','copySource','copyOtherJs','script',() => {
+  const destDir = 'dist';
+
+	return gulp.src('.tmp/*.html')
+		.pipe($.smoosher({
+			ignoreFilesNotFound:true
+		}))
+    //.pipe($.useref())
+		//.pipe($.if('*.js',$.uglify()))
+		//.pipe($.if('*.css',$.minify()))
+		.pipe($.htmlmin({
+			collapseWhitespace:true,
+			removeComments:true,
+			//removeAttributeQuotes:false,
+      minifyCSS:true,
+      minifyJS:true,//对es6无效,故在rollup里面用插件实现
+		}))
+		.pipe($.size({
+			gzip:true,
+			showFiles:true,
+			showTotal:true
+    }))
+    .pipe(gulp.dest(destDir));
+    
+}));
+gulp.task('del', (done) => {
+ del(['.tmp','dist']).then( paths => {
+    console.log('Deleted files:\n',paths.join('\n'));
+    done();
+  });
+});
+gulp.task('publish',gulp.series('del','build',() =>{
+  const destDir = '../dev_www/frontend/tpl/marketing';
+  const finalName = `${path.basename(__dirname)}.html`;
+  //const finalPath = path.resolve('dist',finalName);
+  return gulp.src('dist/index.html')
+    .pipe($.rename(finalName))
+    .pipe(gulp.dest(destDir));
 }));

@@ -10,32 +10,36 @@ body {
   height:600px;
   margin:0 auto;
   background: #000;
+  font-family: Helvetica Neue,Verdana,Arial,Hiragino Sans GB,WenQuanYi Micro Hei,Heiti SC,STHeiti,Microsoft Yahei,SimSun,sans-serif;
+  font-size:16px;
 }
 
 /********Video part********/
 .videopart {
   width: 300px;
   height: 250px;
-  /*background:gray;*/
+  background: #000;
   position:relative;
   /*
   video {
     width: 300px;
     height: 250px;
   }
+  */
   .coverplay-btn {
     position: absolute;
     height: 59px;
     width: 59px;
-    background: url(../playbutton.png) center center no-repeat;
+    background: url(http://static.ftchinese.com/img/AD/She-sH5/playbutton.png) center center no-repeat;
     left: 150px;
     margin-left:-29.5px;
     top:125px;
     margin-top:-29.5px;
-    z-index:10px;
+    z-index:10;
     cursor: pointer;
+    display: none;
   }
-  */
+
 }
 
 
@@ -56,9 +60,10 @@ body {
 }
 .swiper-container {
   width:270px;
-  height:240px;
+  /*height:240px;如果有轮播*/
+  height:220px;
   margin:0 auto;
-  border: thin solid red;
+  /*border: thin solid red;*/
   .swiper-slide {
     width:270px;
     height:200px;
@@ -95,7 +100,8 @@ body {
   width:270px;
   height:70px;
   margin:0 auto;
-  border: thin solid green;
-
+  /*border: thin solid green;*/
+  font-size:.9em;
   color:white;
+  text-align: center;
 }
