@@ -7,7 +7,7 @@ html{
 }
 body {
   width:300px;
-  height:600px;
+  height:1050px;
   margin:0 auto;
   background: #000;
   font-family: Helvetica Neue,Verdana,Arial,Hiragino Sans GB,WenQuanYi Micro Hei,Heiti SC,STHeiti,Microsoft Yahei,SimSun,sans-serif;
@@ -104,4 +104,34 @@ body {
   font-size:.9em;
   color:white;
   text-align: center;
+}
+
+/*******Article part********/
+.cover {
+   width:270px;
+   height:220px;
+   margin:0 auto;
+   a,img{
+      width:270px;
+      height:200px;
+      padding:0px;
+      margin:0px;
+      display:block;
+    }
+}
+.describe {
+  width:270px;
+  height:100px;
+  margin:0 auto;
+  a {
+    text-decoration: none;
+    color:white;
+     font-size:.9em;
+      text-align: center;
+      display: block;
+  }
+}
+.logo {
+  display:block;
+  margin:0 auto;
 }
